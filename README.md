@@ -1,32 +1,56 @@
 # UMS
 
-ASP.NET project (Controllers + Razor Views).
+ASP.NET Core MVC project (Controllers + Razor Views) targeting .NET 10.
 
-This repository contains an ASP.NET Core app (MVC controllers and Razor views) targeting .NET 10.
+Prerequisites
+- .NET 10 SDK installed: https://dotnet.microsoft.com/
+- MySQL server available (local or remote) or use Docker
 
-How to push to GitHub:
-
-1. Initialize and commit locally:
+Clone
 
 ```
+git clone https://github.com/aamadan/UMS.git
 cd UMS
-git init
-git add .
-git commit -m "Initial commit - ASP.NET MVC project"
 ```
 
-2a. Using GitHub CLI (`gh`):
+Configure database
+- Edit `appsettings.json` and set `ConnectionStrings:DefaultConnection` to your MySQL connection string. Example:
 
 ```
-gh repo create <OWNER>/<REPO-NAME> --public --source=. --remote=origin --push
+"ConnectionStrings": {
+  "DefaultConnection": "server=127.0.0.1;database=cs14;user=root;password=1234;"
+}
+```
+Apply database migrations
+
+The project uses Entity Framework Core migrations. From the `UMS` folder run:
+
+1. (Optional) Install the EF CLI if not present:
+
+```
+dotnet tool install --global dotnet-ef --version 9.*
 ```
 
-2b. Or using web UI: create an empty repo, then:
+2. Create/update the database:
 
 ```
-git remote add origin https://github.com/<OWNER>/<REPO-NAME>.git
-git branch -M main
-git push -u origin main
+dotnet ef database update
 ```
 
-Replace `<OWNER>` and `<REPO-NAME>` accordingly.
+Run the app
+
+```
+dotnet restore
+dotnet run
+```
+
+Open browser:
+- Users list: `https://localhost:5001/users/getusers`
+- Employees list: `https://localhost:5001/employees/getemployees`
+
+Notes
+- On first run the app will attempt to apply migrations and seed an initial user (`username: admin`).
+- If you change the DB connection, re-run `dotnet ef database update`.
+- For production deployment, secure connection strings and use migrations in your CI/CD.
+
+If you want, provide a GitHub repo name and I can show commands to push this repo to GitHub.

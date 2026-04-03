@@ -1,0 +1,35 @@
+@model UMS.Models.Employee
+
+<h1 class="mb-4">Add Employee</h1>
+
+<form asp-action="AddEmployee" asp-controller="Employees" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="JobTitle" class="form-label"></label>
+        <input asp-for="JobTitle" class="form-control" />
+        <span asp-validation-for="JobTitle" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatedByUserId" class="form-label">Created By</label>
+        <select asp-for="CreatedByUserId" asp-items="ViewBag.Users" class="form-select">
+            <option value="">-- Select User --</option>
+        </select>
+        <span asp-validation-for="CreatedByUserId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" href="/employees/getemployees">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
